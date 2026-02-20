@@ -1,4 +1,10 @@
 void main(String[] args){
-    NetworkScanner ns = new NetworkScanner();
-    ns.scanNetwork();
+    try {
+        NetworkScanner ns = new NetworkScanner();
+        ns.scanNetwork();
+    }
+    catch(Exception e){
+        IO.println("Что-то пошло не так: " + e.getMessage());
+        e.printStackTrace();
+    }
 }
