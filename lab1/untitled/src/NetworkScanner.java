@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -59,7 +58,8 @@ class NetworkScanner {
             IO.println("Этот компьютер:");
             IO.println(getIndent(1) + "Имя: " + addr.getCanonicalHostName());
             IO.println(getIndent(1) + "IP: " + addr.getHostAddress());
-        } catch (UnknownHostException e) {
+            IO.println(getIndent(1) + "MAC: " + getMAC(NetworkInterface.getByInetAddress(addr).getHardwareAddress()));
+        } catch (UnknownHostException | SocketException e) {
             throw new RuntimeException("Не удалось вывести информацию об устройстве", e);
         }
     }
@@ -118,7 +118,7 @@ class NetworkScanner {
      * @return {@code Map<String, String>}, где ключ — IP-адрес, значение — MAC-адрес
      * @throws RuntimeException если не удаётся выполнить или прочитать вывод команды
      */
-    private Map<String, String> getArpMapForInterface(InterfaceAddress addr) {
+    private @NotNull Map<String, String> getArpMapForInterface(@NotNull InterfaceAddress addr) {
         String targetIp = addr.getAddress().getHostAddress();
         Map<String, String> map = new HashMap<>();
         Process process = startArpProcess();
@@ -328,7 +328,6 @@ class NetworkScanner {
      * @param value целое число
      * @return массив из 4 байт
      */
-    @Contract(value = "_ -> new", pure = true)
     private byte @NotNull [] intToBytes(int value) {
         return ByteBuffer.allocate(4).putInt(value).array();
     }
@@ -344,7 +343,6 @@ class NetworkScanner {
         try {
             return ni.isUp() &&
                     !ni.isLoopback() &&
-                    !ni.isVirtual() &&
                     ni.getHardwareAddress() != null;
         } catch (SocketException e) {
             return false;

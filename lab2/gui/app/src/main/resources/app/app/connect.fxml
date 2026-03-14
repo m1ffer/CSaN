@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10"
+      alignment="CENTER"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="app.app.ConnectController">
+
+    <children>
+
+        <Label text="Подключение к серверу"/>
+
+        <TextField fx:id="hostField"
+                   promptText="IP адрес"/>
+
+        <TextField fx:id="portField"
+                   promptText="Порт"/>
+
+        <TextField fx:id="usernameField"
+                   promptText="Никнейм"/>
+
+        <Button text="Подключиться"
+                fx:id="connectButton"/>
+
+    </children>
+
+</VBox>
