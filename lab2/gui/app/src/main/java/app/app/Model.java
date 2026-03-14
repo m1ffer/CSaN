@@ -89,9 +89,9 @@ public class Model {
             return;
         new Thread(() -> {
             try {
-                IO.println("Пытаемся отправить сообщение");
+                System.out.println("Пытаемся отправить сообщение");
                 client.write(new TextMessage(username, text));
-                IO.println("Сообщение отправлено");
+                System.out.println("Сообщение отправлено");
             } catch (IOException e) {
                 Platform.runLater(() -> error.set(e.getMessage()));
             }

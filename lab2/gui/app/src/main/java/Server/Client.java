@@ -24,11 +24,11 @@ public class Client implements AutoCloseable{
     public synchronized void write(Message message) throws IOException {
         Objects.requireNonNull(message,
                 "Сообщение не может быть null");
-        IO.println("Метод вызван");
+        System.out.println("Метод вызван");
         out.writeObject(message);
-        IO.println("Сообщение записано");
+        System.out.println("Сообщение записано");
         out.flush();
-        IO.println("Буфер смыт");
+        System.out.println("Буфер смыт");
     }
 
     public Message read() throws IOException, ClassNotFoundException {
