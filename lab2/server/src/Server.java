@@ -27,29 +27,29 @@ public class Server implements AutoCloseable{
     }
 
     public void start() throws IOException {
-        IO.println("Сервер запущен");
+        System.out.println("Сервер запущен");
         try {
             while (running) {
                 Socket newUser = server.accept();
                 try {
                     Client client = new Client(newUser);
                     clients.add(client);
-                    IO.println("Пользователь подключился");
+                    System.out.println("Пользователь подключился");
                     new ClientHandler(client).
                             start();
-                } catch (IOException _) {
-                    IO.println("У этого пользователя не получилось");
+                } catch (IOException ignored) {
+                    System.out.println("У этого пользователя не получилось");
                     try {
                         newUser.close();
-                    } catch (IOException _) {}
+                    } catch (IOException ignored1) {}
                 }
             }
         }
         catch(Exception e){
             if (running)
-                IO.println("Сервер упал " + e.getMessage());
+                System.out.println("Сервер упал " + e.getMessage());
             else
-                IO.println("Сервер корректно завершил работу");
+                System.out.println("Сервер корректно завершил работу");
         }
     }
 
@@ -58,8 +58,8 @@ public class Server implements AutoCloseable{
         try {
             server.close();
         }
-        catch(IOException _){
-            IO.println("Что-то пошло не так при закрытии сервера");
+        catch(IOException ignored){
+            System.out.println("Что-то пошло не так при закрытии сервера");
         }
     }
 
@@ -77,12 +77,12 @@ public class Server implements AutoCloseable{
             try {
                 while (true) {
                     Message message = client.read();
-                    IO.println("Пришло сообщение");
+                    System.out.println("Пришло сообщение");
                     sendMessage(message);
                 }
             }
             catch(Exception e){
-                IO.println("Ошибка " + e.getMessage());
+                System.out.println("Ошибка " + e.getMessage());
                 e.printStackTrace();
                 removeClient(client);
             }
@@ -92,12 +92,12 @@ public class Server implements AutoCloseable{
     private void removeClient(Client client){
         if (!clients.remove(client))
             return;
-        IO.println("Клиент отключился");
+        System.out.println("Клиент отключился");
         try{
             client.close();
         }
-        catch(IOException _){
-            IO.println("Что-то пошло не так при отключении клиента");
+        catch(IOException ignored){
+            System.out.println("Что-то пошло не так при отключении клиента");
         }
     }
 
@@ -107,8 +107,8 @@ public class Server implements AutoCloseable{
             try{
                 i.write(message);
             }
-            catch(IOException _){
-                IO.println("Не удалось отправить сообщение");
+            catch(IOException ignored){
+                System.out.println("Не удалось отправить сообщение");
                 removeClient(i);
             }
         });
@@ -125,8 +125,8 @@ public class Server implements AutoCloseable{
                         StandardOpenOption.APPEND
                 );
             }
-            catch(IOException _){
-                IO.println("Не получилось записать пользователя в файл");
+            catch(IOException ignored){
+                System.out.println("Не получилось записать пользователя в файл");
             }
         }
     }
@@ -145,7 +145,7 @@ public class Server implements AutoCloseable{
             try{
                 i.close();
             }
-            catch(Exception _){}
+            catch(Exception ignored){}
         });
         server.close();
     }

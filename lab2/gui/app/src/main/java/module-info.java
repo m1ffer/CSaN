@@ -10,6 +10,7 @@ module app.app {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires javafx.graphics;
+    requires java.desktop;
 
     opens app.app to javafx.fxml;
     exports app.app;
